@@ -21,6 +21,20 @@ def save_data(data):
         json.dump(data, file, indent=4, ensure_ascii=False)
 
 
+# Función que se ejecuta cada 10 minutos
+def periodic_task():
+    while True:
+        time.sleep(600)
+        print("sigo en pie")
+
+def start_periodic_task(message):
+    chat_id = message.chat.id
+    # Crear y comenzar un hilo para la tarea periódica
+    thread = threading.Thread(target=periodic_task, args=(chat_id,))
+    thread.daemon = True  # Permite que el hilo se cierre al terminar el programa
+    thread.start()
+    bot.reply_to(message, "La tarea periódica ha comenzado. Se enviará un mensaje cada 10 minutos.")
+
 # Configura el bot con tu token
 bot = telebot.TeleBot("7650156634:AAFUehxWRcRRx4mP3TsyfdaXD8y4fdw_vEM")  # Cambia esto a tu token
 
@@ -233,5 +247,6 @@ commands = [
 
 # Establecer los comandos de autocompletado
 bot.set_my_commands(commands)
-
+print("corriendo")
+start_periodic_task("sigo en pie")
 bot.polling(timeout=60, long_polling_timeout=30)
