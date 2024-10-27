@@ -1,3 +1,4 @@
+import os
 import threading
 
 import telebot
@@ -247,4 +248,5 @@ commands = [
 bot.set_my_commands(commands)
 print("corriendo")
 start_periodic_task()
+port = int(os.environ.get("PORT", 5000))
 bot.polling(timeout=60, long_polling_timeout=30)
